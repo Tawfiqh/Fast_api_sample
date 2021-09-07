@@ -30,7 +30,8 @@ def calculate(x: int, y: int):
     return x / y
 
 
-uvicorn.run(api, port=8000, host="127.0.0.1")
+if __name__ == "__main__":
+    uvicorn.run(api, port=8000, host="127.0.0.1")
 
 
 # - name: Your own API
@@ -38,9 +39,10 @@ uvicorn.run(api, port=8000, host="127.0.0.1")
 #   description: |
 #     - create a simple FastAPI with one route for the path ‘/’ which returns a stringified dictionary with a key ‘data’ and value ‘hello world’
 #     - why does the data need to be serialised by `json.dumps`?
-#     - Firstly, run the api locally by importing uvicorn into your python script
-#     - Secondly, remove the code which runs your api and just run the api directly from the terminal, using the uvicorn CLI, as shown in [these docs](https://fastapi.tiangolo.com)
-#     - test it with `curl` from the terminal
+#     - Firstly, run the api locally by importing uvicorn into your python script✅
+#     - Secondly, remove the code which runs your api and just run the api directly from the terminal, using the uvicorn CLI, as shown in [these docs](https://fastapi.tiangolo.com) ✅
+#     - Done using: $  uvicorn main:api  # ✅
+#     - test it with `curl` from the terminal ✅
 #     - test it with `requests` from python
 
 
