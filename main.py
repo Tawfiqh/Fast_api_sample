@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 import Names
 import Bmi
+import BostonHousing
 
 # - name: Your own API
 #   id: b4f5cc66-01ee-435b-8f41-66248d5e2424
@@ -45,20 +46,16 @@ def get_person(name):
 # - name: POSTing
 #   id: b4c3275a-4540-4521-9689-2e1069162c81
 #   description: |
-#     - Create a FastAPI with a resource which has a POST method defined and accepts a person’s height and weight
-#     - Save this data in a CSV file row, along with any other useful metadata (time, IP address etc)
-#     - Return the BMI of the person
-#     - Test locally and it will probably fail
-#     - We need to create a data model to avoid a 422 error
+#     - Create a FastAPI with a resource which has a POST method defined and accepts a person’s height and weight ✅
+#     - Save this data in a CSV file row, along with any other useful metadata (time, IP address etc)  ✅
+#     - Return the BMI of the person  ✅
+#     - Test locally and it will probably fail  ✅
+#     - We need to create a data model to avoid a 422 error ✅
 @api.post("/person")
 def create_person(person: Bmi.BmiPerson, request: fastapi.Request):
     current_ip_address = request.client.host
     result = Bmi.create_person(person, current_ip_address)
     return result
-
-
-if __name__ == "__main__":
-    uvicorn.run(api, port=8000, host="127.0.0.1")
 
 
 # - name: My first ML API
@@ -69,6 +66,16 @@ if __name__ == "__main__":
 #       - This resouce should only accept POST requests
 #     - Test it locally using python with the `requests` library
 #     - Extra: how can you make a POST request, with a payload using `curl` from terminal, to test this new method”
+@api.post("/predict_boston")
+def create_person(boston_house: BostonHousing.House):
+    result = BostonHousing.predict(boston_house)
+    return result
+
+
+if __name__ == "__main__":
+    uvicorn.run(api, port=8000, host="127.0.0.1")
+
+
 # - name: Real database
 #   id: b0a535e2-e8e8-4385-bcca-38128fc228b4
 #   description: |
@@ -77,6 +84,8 @@ if __name__ == "__main__":
 #     - Implement POST methods to create a new entry
 #     - Implement PUT methods to update an existing entry
 #     - Be careful what you do with this code if it contains your database credentials
+
+
 # - name: Manual EC2 deployment
 #   id: 85000c8c-a9ff-46b0-95bd-cb85efb479ae
 #   description: |
