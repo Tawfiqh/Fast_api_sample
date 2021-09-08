@@ -1,9 +1,21 @@
 import fastapi
+
 import uvicorn
 import json
 from datetime import datetime
+import Names
+import Bmi
 
-
+# - name: Your own API
+#   id: b4f5cc66-01ee-435b-8f41-66248d5e2424
+#   description: |
+#     - create a simple FastAPI with one route for the path ‘/’ which returns a stringified dictionary with a key ‘data’ and value ‘hello world’
+#     - why does the data need to be serialised by `json.dumps`?
+#     - Firstly, run the api locally by importing uvicorn into your python script✅
+#     - Secondly, remove the code which runs your api and just run the api directly from the terminal, using the uvicorn CLI, as shown in [these docs](https://fastapi.tiangolo.com) ✅
+#     - Done using: $  uvicorn main:api  # ✅
+#     - test it with `curl` from the terminal ✅
+#     - test it with `requests` from python ✅
 api = fastapi.FastAPI()
 
 
@@ -19,38 +31,17 @@ def current_date():
     return f"Current time is: {now} !"
 
 
-@api.get("/test/calculate")
-def calculate(x: int, y: int):
-    if y == 0:
-        return fastapi.Response(
-            content=json.dumps({"error": "y cannot be zero"}),
-            media_type="application/json",
-            status_code=400,
-        )
-    return x / y
-
-
-if __name__ == "__main__":
-    uvicorn.run(api, port=8000, host="127.0.0.1")
-
-
-# - name: Your own API
-#   id: b4f5cc66-01ee-435b-8f41-66248d5e2424
-#   description: |
-#     - create a simple FastAPI with one route for the path ‘/’ which returns a stringified dictionary with a key ‘data’ and value ‘hello world’
-#     - why does the data need to be serialised by `json.dumps`?
-#     - Firstly, run the api locally by importing uvicorn into your python script✅
-#     - Secondly, remove the code which runs your api and just run the api directly from the terminal, using the uvicorn CLI, as shown in [these docs](https://fastapi.tiangolo.com) ✅
-#     - Done using: $  uvicorn main:api  # ✅
-#     - test it with `curl` from the terminal ✅
-#     - test it with `requests` from python
-
-
 # - name: Sending query string data along with our GET requests
 #   id: 31bfd7e0-29d6-4910-87f0-7972c7e41965
 #   description: |
-#     - Create a CSV file containing the `id` (should be uuid4), `first_name`, `age` and `last_name` of people in each row. This will represent our database.
-#     - Define a get method for which takes in a query string param `name` and uses this to read the corresponding entry of the CSV
+#     - Create a CSV file containing the `id` (should be uuid4), `first_name`, `age` and `last_name` of people in each row. This will represent our database. ✅
+#     - Define a get method for which takes in a query string param `name` and uses this to read the corresponding entry of the CSV  ✅
+@api.get("/person")
+def get_person(name):
+    result = Names.get_name(name)
+    return result.to_csv(header=False)
+
+
 # - name: POSTing
 #   id: b4c3275a-4540-4521-9689-2e1069162c81
 #   description: |
@@ -59,6 +50,17 @@ if __name__ == "__main__":
 #     - Return the BMI of the person
 #     - Test locally and it will probably fail
 #     - We need to create a data model to avoid a 422 error
+@api.post("/person")
+def create_person(person: Bmi.BmiPerson, request: fastapi.Request):
+    current_ip_address = request.client.host
+    result = Bmi.create_person(person, current_ip_address)
+    return result
+
+
+if __name__ == "__main__":
+    uvicorn.run(api, port=8000, host="127.0.0.1")
+
+
 # - name: My first ML API
 #   id: 461fa84e-7eb8-4dd1-ac8f-a5bf5c279833
 #   description: |
