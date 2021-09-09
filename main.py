@@ -6,6 +6,7 @@ from datetime import datetime
 import Names
 import Bmi
 import BostonHousing
+import PeopleDb
 
 # - name: Your own API
 #   id: b4f5cc66-01ee-435b-8f41-66248d5e2424
@@ -72,10 +73,6 @@ def create_person(boston_house: BostonHousing.House):
     return result
 
 
-if __name__ == "__main__":
-    uvicorn.run(api, port=8000, host="127.0.0.1")
-
-
 # - name: Real database
 #   id: b0a535e2-e8e8-4385-bcca-38128fc228b4
 #   description: |
@@ -84,6 +81,23 @@ if __name__ == "__main__":
 #     - Implement POST methods to create a new entry
 #     - Implement PUT methods to update an existing entry
 #     - Be careful what you do with this code if it contains your database credentials
+@api.get("/database")
+def get_database():
+    return PeopleDb.get_all()
+
+
+@api.post("/database")
+def post_database(person: PeopleDb.PersonRequest):
+    return PeopleDb.add_new_person(person)
+
+
+@api.put("/database")
+def post_database(person: PeopleDb.PersonRequest):
+    return PeopleDb.update_person(person)
+
+
+if __name__ == "__main__":
+    uvicorn.run(api, port=8000, host="127.0.0.1")
 
 
 # - name: Manual EC2 deployment
