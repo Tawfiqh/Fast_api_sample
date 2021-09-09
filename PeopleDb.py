@@ -77,6 +77,14 @@ def update_person(person: PersonRequest):
     return person_from_db
 
 
+def delete_person(person: PersonRequest):
+    session = Session()
+
+    query = session.query(Person).filter(Person.id == person.id).delete()
+    result = session.commit()
+    return True
+
+
 if __name__ == "__main__":
     result = get_all()
     print(result)

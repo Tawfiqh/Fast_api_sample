@@ -96,6 +96,11 @@ def post_database(person: PeopleDb.PersonRequest):
     return PeopleDb.update_person(person)
 
 
+@api.delete("/database")
+def delete_database(person: PeopleDb.PersonRequest):
+    return PeopleDb.delete_person(person)
+
+
 if __name__ == "__main__":
     uvicorn.run(api, port=8000, host="127.0.0.1")
 
