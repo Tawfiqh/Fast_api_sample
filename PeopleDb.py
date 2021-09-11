@@ -14,6 +14,17 @@ engine = create_engine("sqlite:///my_db.db")
 Session.configure(bind=engine)
 
 
+def check_person_id_present(func):
+    def function_wrapper(person, *args, **kwargs):
+        print("Before calling " + func.__name__)
+        print("called with person:", person)
+        res = func(*args, **kwargs)
+        print(res)
+        print("After calling " + func.__name__)
+
+    return function_wrapper
+
+
 class Person(Base):
     __tablename__ = "people_info"
 
@@ -62,6 +73,7 @@ def add_new_person(person: PersonRequest):
     return person_sql_model
 
 
+@check_person_id_present
 def update_person(person: PersonRequest):
     session = Session()
 
@@ -77,6 +89,7 @@ def update_person(person: PersonRequest):
     return person_from_db
 
 
+@check_person_id_present
 def delete_person(person: PersonRequest):
     session = Session()
 
