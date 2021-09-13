@@ -14,3 +14,12 @@ $ uvicorn main:api --host 0.0.0.0
 
 Can also run it using: 
 $ python3 main.py
+
+
+
+# Docker
+
+$ docker build --tag python-docker 
+$ docker run -p 8000:8000 --name fast-api-test python-docker 
+
+Now can ping the API on 0.0.0.0:8000
