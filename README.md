@@ -19,7 +19,7 @@ $ python3 main.py
 
 # Docker
 
-$ docker build --tag python-docker 
+$ docker build --tag python-docker .
 $ docker run -p 8000:8000 --name fast-api-test python-docker 
 
 Run with -d to run it in the background (detached)
