@@ -22,4 +22,10 @@ $ python3 main.py
 $ docker build --tag python-docker 
 $ docker run -p 8000:8000 --name fast-api-test python-docker 
 
+Run with -d to run it in the background (detached)
+$ docker run -p 8000:8000 --name fast-api-test python-docker 
+
+$ docker start fast-api-test
+$ docker stop fast-api-test
+
 Now can ping the API on 0.0.0.0:8000
